@@ -4,11 +4,15 @@ export class ListItem extends Component {
   setup(props) {
     this.$rootElement = document.createElement('div');
     this.$rootElement.className = 'donate-item';
+    this.$rootElement.textContent = props.date;
 
     const donate = document.createElement('b');
-    donate.textContent = props.donate
+    donate.textContent = props.value
 
-    this.$rootElement.textContent = `${props.date}, ${props.time} - ${props.donate.bold()}`;
+    this.$rootElement.append(donate);
+    return this.$rootElement;
+
+    // this.$rootElement.textContent = `${props.date} - $${props.value}`;
   }
 }
 
