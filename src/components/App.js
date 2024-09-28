@@ -11,8 +11,17 @@ export class App extends Component {
     this.state = {
       total: 0,
       donates: [],
-    }
+    };
 
+    this.displayTotal();
+    const donateForm = new Form({onSubmit: this.onItemCreate.bind(this)});
+    this.$rootElement.appendChild(donateForm.$rootElement);
+
+    this.donateList = new List();
+    this.$rootElement.appendChild(this.donateList.$rootElement);
+  }
+
+  displayTotal() {
     const title = document.createElement('h1');
     title.className = 'total-amount'
     title.textContent = 'Итого: $';
@@ -21,18 +30,14 @@ export class App extends Component {
 
     title.append(this.$total);
     this.$rootElement.append(title);
-
-    
-    const donateForm = new Form();
-    this.$rootElement.appendChild(donateForm.$rootElement);
-
-
-
-    const donateList = new List();
-    this.$rootElement.appendChild(donateList.$rootElement);
   }
   
-  onItemCreate(amount) {
-    // ...
+  onItemCreate(element) {
+    const listItem = new ListItem(element);
+    console.log(element.value);
+    this.state.total+=Number(element.value);
+    this.state.donates.push(listItem);
+    this.donateList.$rootElement.append(listItem.$rootElement);
+    this.$total.textContent = this.state.total;
   }
 }

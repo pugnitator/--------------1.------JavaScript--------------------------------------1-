@@ -11,15 +11,18 @@ export class List extends Component {
     this.$rootElement = document.createElement('div');
     this.$rootElement.className = 'donates-container';
 
+    this.$listContainer = document.createElement('div');
+    this.$listContainer.className = 'donates-container__donates';
 
+    const title = document.createElement('h2');
+    title.className = 'donates-container__title';
+    title.textContent = 'Список донатов';
 
-    return this.$rootElement
+    this.$rootElement.append(title);
+    this.$rootElement.append(this.$listContainer);
   }
 
-  addItem(donate) {
-    const item = new ListItem();
-    console.log(item);
-
-    // this.$rootElement.append(item.setup());
+  addItem(item) {
+    this.$listContainer.append(item);
   }
 }

@@ -3,7 +3,7 @@ import { Component } from "../core/Component";
 import { Donate } from "./Donate";
 
 export class Form extends Component {
-  constructor(props = {}) {
+  constructor(props) {
     super(props);
     this.donate = new Donate()
   }
@@ -15,8 +15,9 @@ export class Form extends Component {
       this.handleInput(event);
     });
 
-    form.addEventListener("submit", () => {
-      this.handleSubmit();
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.handleSubmit(props);
     });
   }
 
@@ -28,20 +29,20 @@ export class Form extends Component {
     label.className = "donate-form__input-label";
     label.textContent = "Введите сумму в $";
 
-    const input = document.createElement("input");
-    input.className = "donate-form__donate-input";
-    input.name = "amount";
-    input.type = "number";
-    input.max = "100";
-    input.min = "1";
-    input.required = true;
+    this.input = document.createElement("input");
+    this.input.className = "donate-form__donate-input";
+    this.input.name = "amount";
+    this.input.type = "number";
+    this.input.max = "100";
+    this.input.min = "1";
+    this.input.required = true;
 
     const button = document.createElement("button");
     button.className = "donate-form__submit-button";
     button.type = "submit";
     button.textContent = "Задонатить";
 
-    label.append(input);
+    label.append(this.input);
     this.$rootElement.append(label);
     this.$rootElement.append(button);
 
@@ -50,12 +51,16 @@ export class Form extends Component {
 
   handleInput(event) {
     this.donate.value = event.target.value;
+    this.input.value = event.target.value;
     console.log(this.donate);
+    console.log(this.input);
   }
 
-  handleSubmit() {
+  handleSubmit(props) {
     const currentDate= dayjs();
     this.donate.date = currentDate.format('DD/MM/YYYY, HH:mm:ss');
     console.log(this.donate);
+    props.onSubmit(this.donate);
+    this.input.value = '';
   }
 }
